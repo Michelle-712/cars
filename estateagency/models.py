@@ -2,9 +2,11 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Agent(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -80,7 +82,7 @@ class ContactMessage(models.Model):
     subject = models.CharField(max_length=200, blank=True, null=True)
     message = models.TextField()
     property = models.ForeignKey(Property, on_delete=models.SET_NULL, null=True, blank=True,
-                                  help_text='Property the enquiry is about (if any)')
+                                 help_text='Property the enquiry is about (if any)')
     sent_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
